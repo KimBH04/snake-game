@@ -1,0 +1,8 @@
+{
+    "dotnet.defaultSolution": "snake-game.slnx",
+    "files.exclude": {
+        "**/.git": true,
+        "**/bin": true,
+        "**/obj": true,
+    }
+}
