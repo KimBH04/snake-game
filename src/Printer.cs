@@ -1,6 +1,11 @@
-public class Printer<T>(Func<T, string> translator)
+public class Printer<T>
 {
-    private readonly Func<T, string> translator = translator ?? (o => o?.ToString() ?? "null");
+    private readonly Func<T, string> translator;
+
+    public Printer(Func<T, string> translator)
+    {
+        this.translator = translator ?? (o => o?.ToString() ?? "null");
+    }
 
     public void Print(T o)
     {

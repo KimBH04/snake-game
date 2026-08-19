@@ -1,7 +1,8 @@
-[*.cs]
+[*]
+charset = utf-8
 
 # CA1050: 네임스페이스에서 형식을 선언하세요.
 dotnet_diagnostic.CA1050.severity = none
 
-[*]
-charset = utf-8
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = none
