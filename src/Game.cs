@@ -46,12 +46,21 @@ public class Game
 
     public void SetSnakeDirection(State dir)
     {
-        if ((dir & State.Body) == State.None)
+        if (Enum.IsDefined(dir) && (dir & State.Body) == State.None)
         {
             return;
         }
 
-        Snake.Direction = dir;
+        // 90도 회전한 방향은 비트를 좌, 우로 한 번 시프트 한 것과 동일.
+        // Up <-> Right 변환은 반대 방향으로 세 번 시프트 후 논리합 연산을 하면
+        // State.Body 범위 내에서 반대 방향이 됨.
+        int sdir = (int)Snake.Direction;
+        int ccw90 = ((sdir << 1) | (sdir >> 3)) & (int)State.Body;
+        int cw90  = ((sdir >> 1) | (sdir << 3)) & (int)State.Body;
+        if (((ccw90 | cw90) & (int)dir) != (int)State.None)
+        {
+            Snake.Direction = dir;
+        }
     }
 
     public bool Next()
@@ -89,7 +98,8 @@ public class Game
     }
 
     private bool Movable(int r, int c) =>
-        (uint)r < Depth && (uint)c < Width && (board[r, c] & State.Body) == State.None;
+        (uint)r < Depth && (uint)c < Width &&
+        ((board[r, c] & State.Body) == State.None || (r, c) == Snake.Tail);
 
     private bool PlaceApple()
     {
